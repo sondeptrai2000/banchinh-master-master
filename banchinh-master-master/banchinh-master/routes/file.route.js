@@ -96,7 +96,8 @@ fileRouter.post('/upload',upload.single('filePath'),(req,res)=>{
     var temp = new fileModel({
         filePath:filePath,
         nameFile : nameFile,
-        studentemail: email
+        studentemail: email,
+        slug: req.cookies.slug
     })
   
     temp.save((err,data)=>{

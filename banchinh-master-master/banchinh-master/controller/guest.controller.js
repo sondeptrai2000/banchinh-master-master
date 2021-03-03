@@ -9,26 +9,28 @@ var fileModel = require('../models/file')
 class guestController {
     baosinhvien(req,res){
         let slug = req.params.slug;
-        let java = "java"
-        AccountModel.find({
-            slug : java
+        console.log("slug là :",slug)
+        fileModel.find({slug:slug},function(err,result){
+            if(err){
+                console.log(err) }else{
+                res.render('guest/baocuahocsinh',{data:result})
+                    // console.log(result)
+            }
         })
-        .then(data=>{
-            fileModel.find({},(err,data)=>{
-                if(err){
-                    console.log(err)
-                }
-                else if(data.length>0){
-                    res.render('guest/baocuahocsinh',{data:data})
-                    console.log(data)
-    
-                }
-                else{
-                    res.render('guest/baocuahocsinh',{data:data})
-                }
-            })
-        })
+            
     }
+    // if(err){
+    //     console.log(err)
+    // }
+    // else if(data.length>0){
+    //     res.render('guest/baocuahocsinh',{data:data})
+    //     console.log(data)
+
+    // }
+    // else{
+    //     res.render('guest/baocuahocsinh',{data:data})
+    // }
+
 
     // viewmanagine(req,res){
     //     let slug = req.params.slug
