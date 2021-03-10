@@ -161,4 +161,74 @@ fileRouter.get('/download/:id',(req,res)=>{
     })
 })
 
+fileRouter.get('/lol:slug',(req,res)=>{
+    slug = req.params.slug
+    console.log("sss:",slug)
+    fileModel.find({slug:slug},(err,data)=>{
+        res.render('admin/admin',{data:data})
+
+    })
+})
+
+//test chọn file và nén thành zip để tải xuống
+var file_system = require('fs');
+var archiver = require('archiver');
+fileRouter.post('/abc',(req,res)=>{
+    // let nameslug = req.body.slug + '.zip'
+    // console.log("ạdhjkas",nameslug)
+    var output = file_system.createWriteStream("nameslug.zip");
+    var archive = archiver('zip');
+    var a = req.body.hobby
+    
+    output.on('close', function () {
+        console.log(archive.pointer() + ' total bytes');
+        console.log('archiver has been finalized and the output file descriptor has closed.');
+    });
+    archive.on('error', function(err){
+        throw err;
+    });
+     
+    archive.pipe(output);
+
+            for(var n in a){
+                console.log("checkboxx3", a[n])          
+                file = "public/" +  a[n]
+                archive
+                .append(file_system.createReadStream(file), { name: file })
+            }
+            archive.finalize();
+            var x= __dirname.replace('routes','nameslug.zip');
+            console.log("địa chỉ ", x)
+            res.download(x)
+        }
+)
+
+
+// var file_system = require('fs');
+// var archiver = require('archiver');
+//     fileRouter.get('/download-Zip-file', function(req, res){    
+//         var output = file_system.createWriteStream('target.zip');
+//         var archive = archiver('zip');
+         
+//         output.on('close', function () {
+//             console.log(archive.pointer() + ' total bytes');
+//             console.log('archiver has been finalized and the output file descriptor has closed.');
+//         });
+        
+
+//         archive.on('error', function(err){
+//             throw err;
+//         });
+         
+//         archive.pipe(output);
+
+//     var file1 = 'public/uploads/m1.pdf';
+//     var file2 = 'public/uploads/m.pdf';
+
+//     archive
+//     .append(file_system.createReadStream(file1), { name: file1 })
+//     .append(file_system.createReadStream(file2), { name: file2 });
+
+//         archive.finalize();
+// });
 module.exports = fileRouter

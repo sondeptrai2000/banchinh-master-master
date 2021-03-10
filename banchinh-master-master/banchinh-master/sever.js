@@ -43,9 +43,7 @@ app.get('/download/:id',(req,res)=>{
        }
        else{
            var x= __dirname+'/public/'+data[0].filePath;
-           
-           console.log(x)
-           res.download(x)
+          res.download(x)
        }
   })
 })
