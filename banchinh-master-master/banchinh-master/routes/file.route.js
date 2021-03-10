@@ -176,7 +176,7 @@ var archiver = require('archiver');
 fileRouter.post('/abc',(req,res)=>{
     // let nameslug = req.body.slug + '.zip'
     // console.log("ạdhjkas",nameslug)
-    var output = file_system.createWriteStream("nameslug.zip");
+    var output = file_system.createWriteStream('public/nameslug.zip');
     var archive = archiver('zip');
     var a = req.body.hobby
     
@@ -187,23 +187,23 @@ fileRouter.post('/abc',(req,res)=>{
     archive.on('error', function(err){
         throw err;
     });
-     
     archive.pipe(output);
+        for(var n in a){
+            file = "public/" +  a[n]
+            archive.append(file_system.createReadStream(file), { name: file })
+        }
+        archive.finalize();   
+        res.redirect('./abc1')
 
-            for(var n in a){
-                console.log("checkboxx3", a[n])          
-                file = "public/" +  a[n]
-                archive
-                .append(file_system.createReadStream(file), { name: file })
-            }
-            archive.finalize();
-            var x= __dirname.replace('routes','nameslug.zip');
+    })
+
+fileRouter.get('/abc1',(req,res)=>{
+            var x = __dirname.replace('routes','public/') + 'nameslug.zip'
             console.log("địa chỉ ", x)
             res.download(x)
+            
         }
 )
-
-
 // var file_system = require('fs');
 // var archiver = require('archiver');
 //     fileRouter.get('/download-Zip-file', function(req, res){    
